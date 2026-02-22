@@ -1,79 +1,240 @@
-/* Styles for desktop */
+/* ============================================
+   Kornelius — Nordic Editorial Design
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap');
+
+:root {
+    --color-bg: #f4f1ec;
+    --color-surface: #ffffff;
+    --color-text: #2c2c2c;
+    --color-text-muted: #6b6560;
+    --color-accent: #3a6b5a;
+    --color-border: rgba(0, 0, 0, 0.06);
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --radius: 12px;
+    --shadow-soft: 0 2px 20px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-    background-color: #f8f9fa; /* Set a background color for the body */
-    font-family: Arial, sans-serif; /* Choose a font family for text */
-    margin: 0; /* Remove default margin */
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    min-height: 100vh;
     display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    height: 100vh; /* Make the body fill the viewport height */
-    background-image: url("driving-river.PNG");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    flex-direction: column;
 }
 
-.catalogue {
-    display: flex; /* Use flexbox layout */
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    justify-content: flex-start; /* Align items to the left */
-    max-width: 800px; /* Limit the maximum width of the catalogue */
-    padding: 20px; /* Add some padding to the catalogue */
+/* Background texture */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(58, 107, 90, 0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(180, 140, 100, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
 }
 
-.book {
-    width: calc(33.33% - 20px); /* Set width of each book item (3 items per row) */
-    margin: 10px; /* Add margin around each book item */
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.book img {
-    width: 100%;
-    height: auto;
-    transition: transform 0.3s;
-}
-
-.book a {
-    display: block;
-    padding: 10px;
+/* Header */
+.site-header {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 2rem 2rem;
     text-align: center;
-    color: #333;
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+}
+
+.site-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+}
+
+.site-tagline {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    font-weight: 400;
+    color: var(--color-text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* Main */
+main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+}
+
+/* Catalogue Grid */
+.catalogue {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+/* Book Card */
+.book {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+    cursor: default;
 }
 
 .book:hover {
-    transform: translateY(-5px); /* Move book up slightly on hover */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
 }
 
-.book:hover a {
-    background-color: rgba(255, 255, 255, 0.9);
-    color: #555;
+.book-cover {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: var(--color-bg);
 }
 
-/* Styles for mobile */
-@media only screen and (max-width: 600px) {
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
+}
+
+.book:hover .book-cover img {
+    transform: scale(1.03);
+}
+
+.book-info {
+    padding: 1rem 1.1rem 1.2rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.book-info h2 {
+    font-family: var(--font-display);
+    font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+    font-weight: 400;
+    color: var(--color-text);
+    line-height: 1.35;
+}
+
+/* Footer */
+.site-footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.site-footer p {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+}
+
+/* Entrance Animations */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.site-header {
+    animation: fadeUp 0.7s ease-out both;
+}
+
+.book {
+    animation: fadeUp 0.6s ease-out both;
+}
+
+.book:nth-child(1) { animation-delay: 0.15s; }
+.book:nth-child(2) { animation-delay: 0.25s; }
+.book:nth-child(3) { animation-delay: 0.35s; }
+.book:nth-child(4) { animation-delay: 0.45s; }
+.book:nth-child(5) { animation-delay: 0.55s; }
+.book:nth-child(6) { animation-delay: 0.65s; }
+
+/* ============================================
+   Tablet (2 columns)
+   ============================================ */
+@media (max-width: 860px) {
+    .site-header {
+        padding: 2.5rem 1.5rem 1.5rem;
+    }
+
+    main {
+        padding: 0 1.5rem 2.5rem;
+    }
+
     .catalogue {
-        display: flex;
-        flex-wrap: wrap; /* Allow items to wrap to the next line */
-        justify-content: space-between; /* Distribute items evenly along the row */
-        align-items: flex-start; /* Align items to the top */
-        padding-top: 20px; /* Add padding to the top */
-        padding-left: 10px; /* Add padding to the left */
-        padding-right: 10px; /* Add padding to the right */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* ============================================
+   Phone (2 columns, tighter)
+   ============================================ */
+@media (max-width: 520px) {
+    .site-header {
+        padding: 2rem 1rem 1.2rem;
+    }
+
+    main {
+        padding: 0 1rem 2rem;
+    }
+
+    .catalogue {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.9rem;
     }
 
     .book {
-        width: calc(50% - 20px); /* Set width of each book item (2 items per row) for mobile */
-        margin-bottom: 20px; /* Add margin between rows */
-        margin-top: 10px; /* Add margin to the top of each book */
+        border-radius: 10px;
+    }
+
+    .book-info {
+        padding: 0.75rem 0.8rem 0.85rem;
+    }
+
+    .book-info h2 {
+        font-size: 0.82rem;
+    }
+
+    .site-footer {
+        padding: 1.5rem 1rem;
     }
 }
-
